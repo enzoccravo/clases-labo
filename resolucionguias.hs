@@ -1,30 +1,30 @@
 type Punto2D = (Float, Float)
 
-doble :: Int -> Int
+doble :: Integer -> Integer
 doble x = x + x
 
-f :: Int -> Int
+f :: Integer -> Integer
 f x | x == 1 = 8
     | x == 4 = 131
     | x == 16 = 16
 
-g :: Int -> Int
+g :: Integer -> Integer
 g x | x == 8 = 16
     | x == 16 = 4
     | x == 131 = 1
 
-h :: Int -> Int
+h :: Integer -> Integer
 h x = f (g x)
 
-k :: Int -> Int
+k :: Integer -> Integer
 k x = g (f x)
 
-maximo3 :: Int -> Int -> Int -> Int
+maximo3 :: Integer -> Integer -> Integer -> Integer
 maximo3 x y z | ((x >= y) && (x >= z)) = x
               | ((y >= x) && (y >= z)) = y
               | ((z >= x) && (z >= y)) = z
 
-sumaDistintos :: Int -> Int -> Int -> Int
+sumaDistintos :: Integer -> Integer -> Integer -> Integer
 sumaDistintos x y z | (x /= y) && (x /= z) && (y /= z) = x + y + z
                     | (x == y) && (x == z) = x
                     | (x == y) && (x /= z) = x + z
@@ -32,33 +32,33 @@ sumaDistintos x y z | (x /= y) && (x /= z) && (y /= z) = x + y + z
                     | (x /= y) && (y == z) = x + y
                     | (y /= z) && (y == x) = y + z
 
-digitoUnidades :: Int -> Int
+digitoUnidades :: Integer -> Integer
 digitoUnidades x = mod x 10
 
-digitoDecenas :: Int -> Int
+digitoDecenas :: Integer -> Integer
 digitoDecenas x = div (mod x 100) 10
 
 todoMenor :: (Punto2D) -> (Punto2D) -> Bool
 todoMenor (a,b) (c,d) = a < c && b < d
 
-posPrimerPar :: (Int, Int, Int) -> Int
+posPrimerPar :: (Integer, Integer, Integer) -> Int
 posPrimerPar (a,b,c) | esPar a = 0
                      | esPar b = 1
                      | esPar c = 2
                      | otherwise = 4
 
-factorial :: Int -> Int
+--factorial :: Integer -> Integer
 factorial n | n == 0 = 1
             | otherwise = n * factorial (n-1)
 
-valorAbsoluto :: Int -> Int
+valorAbsoluto :: Integer -> Integer
 valorAbsoluto n | n >= 0 = n
                 | n <0 = -n
 
-esPar :: Int -> Bool
+esPar :: Integer -> Bool
 esPar n = mod n 2 == 0
 
-todosMenores :: (Int, Int, Int) -> Bool
+todosMenores :: (Integer, Integer, Integer) -> Bool
 todosMenores (a,b,c) = (f a > g a) && (f b > g b) && (f c > g c)
 
 type Anio = Integer
@@ -67,21 +67,21 @@ type EsBisiesto = Bool
 bisiesto :: Anio -> EsBisiesto
 bisiesto n = not(mod n 4 /= 0 || (mod n 100 == 0 && mod n 400 /= 0))
 
-type Punto3D = (Int, Int, Int)
+type Punto3D = (Integer, Integer, Integer)
 
-distanciaManhattan :: (Punto3D) -> (Punto3D) -> Int
+distanciaManhattan :: (Punto3D) -> (Punto3D) -> Integer
 distanciaManhattan (x1,y1,z1) (x2,y2,z2) = valorAbsoluto (x1 - x2) + valorAbsoluto (y1 - y2) + valorAbsoluto (z1 - z2)
 
 --Ejercicio 8.
-comparar :: Int -> Int -> Int
+comparar :: Integer -> Integer -> Integer
 comparar a b | sumaUltimosDosDigitos a < sumaUltimosDosDigitos b = 1
              | sumaUltimosDosDigitos a > sumaUltimosDosDigitos b = -1
              | sumaUltimosDosDigitos a == sumaUltimosDosDigitos b = 0
 
-sumaUltimosDosDigitos :: Int -> Int
+sumaUltimosDosDigitos :: Integer -> Integer
 sumaUltimosDosDigitos n = (mod (valorAbsoluto n) 10) + (mod (div (valorAbsoluto n) 10) 10)
 
-fibonacci :: Int -> Int
+fibonacci :: Integer -> Integer
 fibonacci n | n == 0 = 0
             | n == 1 = 1
             | otherwise = fibonacci (n-1) + fibonacci (n-2)
@@ -90,7 +90,7 @@ parteEntera :: Float -> Int
 parteEntera n | n < 1 = 0
               | otherwise = parteEntera(n-1) + 1
 
-esDivisible :: Int -> Int -> Bool
+esDivisible :: Integer -> Integer -> Bool
 esDivisible n m | n - m == 0 = True
                 | n - m < 0 = False
                 | otherwise = esDivisible (n-m) m
@@ -113,7 +113,7 @@ nEsimoPrimoAux n k  | esPrimo n && k == 1 = n
 nEsimoPrimo :: Integer -> Integer
 nEsimoPrimo n = nEsimoPrimoAux n 2 
 
-medioFact :: Int -> Int
+medioFact :: Integer -> Integer
 medioFact 0 = 1
 medioFact 1 = 1
 medioFact n = n * medioFact(n-2)
@@ -133,4 +133,13 @@ iEsimoDigito :: Integer -> Integer -> Integer
 iEsimoDigito n m = div (mod n (10^(cantDigitos n - m + 1))) (10^(cantDigitos n - m))
 
 sumaDigitos :: Integer -> Integer
-sumaDigitos n = (iEsimoDigito n (cantDigitos n)) + (iEsimoDigito n (cantDigitos n - 1))
+sumaDigitos n   | n < 10 = n
+                | otherwise = iEsimoDigito n (cantDigitos n) + sumaDigitos (div n 10)
+                
+eAprox :: Integer -> Float
+eAprox 0 = 1
+eAprox n = (1/(factorial (fromIntegral n))) + eAprox (n-1)
+
+e :: Float
+e = eAprox 10
+
