@@ -72,7 +72,6 @@ type Punto3D = (Integer, Integer, Integer)
 distanciaManhattan :: (Punto3D) -> (Punto3D) -> Integer
 distanciaManhattan (x1,y1,z1) (x2,y2,z2) = valorAbsoluto (x1 - x2) + valorAbsoluto (y1 - y2) + valorAbsoluto (z1 - z2)
 
---Ejercicio 8.
 comparar :: Integer -> Integer -> Integer
 comparar a b | sumaUltimosDosDigitos a < sumaUltimosDosDigitos b = 1
              | sumaUltimosDosDigitos a > sumaUltimosDosDigitos b = -1
@@ -122,6 +121,9 @@ cantDigitos :: Integer -> Integer
 cantDigitos n   | n < 10 = 1
                         | otherwise = cantDigitos (div n 10) + 1
 
+
+-- Ejercicio 6
+
 queDigitoEs :: Integer -> Integer -> Integer
 queDigitoEs n k | k == 1 = div (mod n 10) 1
                    | otherwise = div (mod n (10^k)) (10^(k-1))
@@ -129,17 +131,57 @@ queDigitoEs n k | k == 1 = div (mod n 10) 1
 todosDigitosIguales :: Integer -> Bool
 todosDigitosIguales n = queDigitoEs n (cantDigitos n) == queDigitoEs n (cantDigitos n-1)
 
+-- Ejercicio 7
+
 iEsimoDigito :: Integer -> Integer -> Integer
 iEsimoDigito n m = div (mod n (10^(cantDigitos n - m + 1))) (10^(cantDigitos n - m))
 
 sumaDigitos :: Integer -> Integer
 sumaDigitos n   | n < 10 = n
                 | otherwise = iEsimoDigito n (cantDigitos n) + sumaDigitos (div n 10)
-                
+
+-- Ejercicio 11 
+
 eAprox :: Integer -> Float
 eAprox 0 = 1
 eAprox n = (1/(factorial (fromIntegral n))) + eAprox (n-1)
 
 e :: Float
 e = eAprox 10
+
+-- Ejercicio 12
+
+sucRaizDe2 :: Integer -> Float
+sucRaizDe2 1 = 2
+sucRaizDe2 n = 2 + (1/sucRaizDe2 (n-1))
+
+raizDe2Aprox :: Integer -> Float
+raizDe2Aprox n = (sucRaizDe2 n) - 1
+
+-- Ejercicio 13
+
+sumatoriaIaLaJAux :: Integer -> Integer -> Integer
+sumatoriaIaLaJAux n 1 = n
+sumatoriaIaLaJAux n m = (n^m) + sumatoriaIaLaJAux n (m-1)
+
+sumatoriaIaLaJ :: Integer -> Integer -> Integer
+sumatoriaIaLaJ 1 m = sumatoriaIaLaJAux 1 m
+sumatoriaIaLaJ n m = sumatoriaIaLaJAux (n-1) m + sumatoriaIaLaJAux n m
+
+
+-- Ejercicio 14
+
+sumaPotenciasAux :: Integer -> Integer -> Integer -> Integer
+sumaPotenciasAux q n 1 = q^(n+1)
+sumaPotenciasAux q n m = sumaPotenciasAux q n (m-1) + q^(n+m)
+
+sumaPotencias :: Integer -> Integer -> Integer -> Integer
+sumaPotencias q 1 m = sumaPotenciasAux q 1 m
+sumaPotencias q n m = sumaPotenciasAux q (n-1) m + sumaPotenciasAux q n m
+
+-- Recursividad con 2 parametros la idea es hacer un algoritmo aux fijando un valor en algo y despues hacer el algoritmo principal con la sumatoria(en este caso) con el otro valor fijado.
+
+
+
+
 
