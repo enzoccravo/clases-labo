@@ -180,8 +180,76 @@ sumaPotencias q 1 m = sumaPotenciasAux q 1 m
 sumaPotencias q n m = sumaPotenciasAux q (n-1) m + sumaPotenciasAux q n m
 
 -- Recursividad con 2 parametros la idea es hacer un algoritmo aux fijando un valor en algo y despues hacer el algoritmo principal con la sumatoria(en este caso) con el otro valor fijado.
+-- Ejercicio 15
 
+sumaRacionalesAux :: Integer -> Integer -> Float
+sumaRacionalesAux n 1 = fromIntegral n 
+sumaRacionalesAux n m = sumaRacionalesAux n (m-1) + ((fromIntegral n)/(fromIntegral m))  
 
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales 1 m = sumaRacionalesAux 1 m
+sumaRacionales n m = sumaRacionalesAux (n-1) m + sumaRacionalesAux n m
 
+-- Ejercicio 17
 
+esFibonacci :: Integer -> Bool
+esFibonacci n = fibonacci2variables n 0
+
+fibonacci2variables :: Integer -> Integer -> Bool
+fibonacci2variables n k | fibonacci k == n = True
+                        | fibonacci k > n = False
+                        | otherwise = fibonacci2variables n (k+1)
+
+-- Ejercicio 18
+
+mayorDigitoPar :: Integer -> Integer
+mayorDigitoPar n | n < 10 && esPar n = n
+                 | n < 10 = -1
+                 | esPar ultimoDigito = max ultimoDigito recursion
+                 | otherwise = recursion
+                 where 
+                    ultimoDigito = mod n 10
+                    recursion = mayorDigitoPar (div n 10)
+
+-- max no está permitido, así q n ose
+
+-- guia 5
+
+-- ej 1
+
+longitud :: [t] -> Integer
+longitud [] = 0
+longitud (x:xs) = 1 + longitud xs
+
+ultimo :: [t] -> t
+ultimo (x:xs)   | longitud (x:xs) == 1 = x
+                | otherwise = ultimo xs
+
+principio :: [t] -> [t]
+principio (x:xs)    | longitud (x:xs) == 1 = []
+                    | otherwise = x: principio xs
+
+reverso :: [t] -> [t]
+reverso [] = []
+reverso (x:xs)  | longitud (x:xs) == 1 = [x]
+                | otherwise = (ultimo xs): reverso(principio (x:xs))
+
+-- ej 2
+
+pertenece :: (Eq t) => t -> [t] -> Bool
+pertenece e [] = False
+pertenece e (x:xs)  | longitud (x:xs) == 1 && e == x = True 
+                    | otherwise = pertenece e xs
+
+todosIguales :: (Eq t) => [t]-> Bool  
+todosIguales [] = False
+todosIguales (x:[]) = True
+todosIguales (x:xs) | x == head xs = todosIguales xs
+                    | otherwise = False
+
+todosDistintos :: (Eq t) => [t] -> Bool
+todosDistintos [] = False
+todosDistintos (x:[]) = True
+todosDistintos (x:xs)   | x /= head xs = todosDistintos xs
+                        | otherwise = False   
 
