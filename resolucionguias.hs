@@ -253,3 +253,30 @@ todosDistintos (x:[]) = True
 todosDistintos (x:xs)   | x /= head xs = todosDistintos xs
                         | otherwise = False   
 
+hayRepetidos:: (Eq t) => [t] -> Bool
+hayRepetidos [] = False
+hayRepetidos (x:[]) = False
+hayRepetidos (x:xs) | pertenece x xs = True
+                    | otherwise = hayRepetidos xs
+
+quitar :: (Eq t) => t -> [t] -> [t]
+quitar _ [] = []
+quitar n (x:xs) | n == x = xs
+                | otherwise = x : quitar n xs
+
+quitarTodos :: (Eq t ) => t -> [t] -> [t]
+quitarTodos _ [] = []
+quitarTodos n (x:xs) | n == x = quitarTodos n xs
+                     | otherwise = x: quitarTodos n xs 
+
+eliminarRepetidos :: (Eq t) => [t] -> [t]
+eliminarRepetidos [] = []
+eliminarRepetidos (x:[]) = [x]
+eliminarRepetidos (x:xs) | pertenece x xs = eliminarRepetidos xs
+                         | otherwise = x: eliminarRepetidos(quitarTodos x xs)
+
+mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+mismosElementos [] [] = False
+mismosElementos (x:xs) (y:ys) = longitud (eliminarRepetidos (x:xs)) == longitud (eliminarRepetidos (y:ys))
+mismosElementos (x:xs) (y:ys) | pertenece x (y:ys) && pertenece y (x:xs) = mismosElementos xs ys
+                              | otherwise = False
